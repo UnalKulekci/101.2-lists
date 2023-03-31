@@ -19,4 +19,5 @@ object Vol extends App {
   var n2 : Node = new Node("Paris",n3)
   var n1 : Node = new Node("Tokyo",n2)
 
+
 }
