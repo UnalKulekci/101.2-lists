@@ -31,10 +31,14 @@ class Node(var item: String, var next: Node){
      text + "null"
    }
 
+   // Tache 5
+
+   // Méthode removeFirstElement() qui enlève le premier élément de la liste
    def removeFirstElement() : Unit = {
      if(head != null) head = head.next
    }
 
+   // Méthode getLastElement(): Node qui retourne le dernier élément de la liste (faites attention si la liste est vide).
    def getLastElement() : Node = {
 
      var size : Int = getSize() // Size kadar liste'deki next'lemek icin once bunu aliyorum
@@ -50,11 +54,14 @@ class Node(var item: String, var next: Node){
      }
    }
 
+   // Méthode addToEnd(element:String) permettant d’ajouter un élément à la fin de la liste. Utiliser pour cette
+   //méthode la méthode getLastElement().
    def addToEnd(element:String) : Unit = {
      var lastNode : Node = getLastElement()
      lastNode.next = new Node(element)
    }
 
+    // Méthode isPresent(e:String): Boolean qui indique si e est présent dans la liste.
    def isPresent(e: String): Boolean = {
      var checkNode: Node = head
      var size: Int = getSize()
@@ -69,6 +76,9 @@ class Node(var item: String, var next: Node){
      return isHere
    }
 
+   // Tâche 6
+
+   // Méthode findElement(s:String): Node qui retourne le premier nœud correspondant au String donné en argument
 
 
 
