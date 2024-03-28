@@ -25,11 +25,54 @@ class Node(var item: String, var next: Node){
      var currentNode = head
 
      while(currentNode != null) {
-       text += s"${currentNode.item} ->"
+       text += s"${currentNode.item} -> "
        currentNode = currentNode.next
      }
      text + "null"
    }
+
+   def removeFirstElement() : Unit = {
+     if(head != null) head = head.next
+   }
+
+   def getLastElement() : Node = {
+
+     var size : Int = getSize() // Size kadar liste'deki next'lemek icin once bunu aliyorum
+     var lastNode : Node = head
+
+     if(size == 0) {
+       return null
+     } else {
+       for(i <- 1 to (size-1)){
+         lastNode = lastNode.next
+       }
+        return lastNode
+     }
+   }
+
+   def addToEnd(element:String) : Unit = {
+     var lastNode : Node = getLastElement()
+     lastNode.next = new Node(element)
+   }
+
+   def isPresent(e: String): Boolean = {
+     var checkNode: Node = head
+     var size: Int = getSize()
+     var isHere = false
+
+     for(i <- 1 to (size)){
+       if(checkNode.item == e) {
+         isHere = true
+       }
+       checkNode = checkNode.next
+     }
+     return isHere
+   }
+
+
+
+
+
 
 } // End of the LinkedList Class
 
@@ -49,12 +92,36 @@ object LinkedList extends App {
 
   var flightList: LinkedList = new LinkedList()
   println(flightList)
+  println(flightList.getLastElement()) // List is empty and null
   flightList.addToStart("Rome")
   println(flightList)
   flightList.addToStart("Paris")
   println(flightList)
   flightList.addToStart("Tokyo")
   println(flightList)
+
+  flightList.removeFirstElement()
+  println(flightList.toString) // Paris -> Rome -> null
+
+  flightList.addToStart("Sion")
+  flightList.addToStart("Ankara")
+  println(flightList.toString)
+  println(s"Last element = ${flightList.getLastElement()} and; \t\nThe item of last element = ${flightList.getLastElement().item}")
+  /*
+  Last element = Node@17d99928 and;
+  The item of last element = Rome
+   */
+
+  flightList.addToEnd("Giresun")
+  println(s"Last element = ${flightList.getLastElement()} and; \t\nThe item of last element = ${flightList.getLastElement().item}")
+  /*
+  Last element = Node@3834d63f and;
+  The item of last element = Giresun
+   */
+
+  println(flightList.isPresent("Giresun"))
+  println(flightList.isPresent("Amsterdam"))
+
 
   /* Kodlama asamasinda methodlarin calisip calismadigini test etmek maksatli yazdigim satirlar
   println(flightList.head)
@@ -66,8 +133,5 @@ object LinkedList extends App {
   println(flightList.head.item)
   println(flightList.getSize())
   println(flightList.toString)
-
    */
-
-
-}
+  }
