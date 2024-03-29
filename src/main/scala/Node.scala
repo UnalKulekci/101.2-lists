@@ -61,6 +61,7 @@ class Node(var item: String, var next: Node){
      lastNode.next = new Node(element)
    }
 
+
     // Méthode isPresent(e:String): Boolean qui indique si e est présent dans la liste.
    def isPresent(e: String): Boolean = {
      var checkNode: Node = head
@@ -79,19 +80,87 @@ class Node(var item: String, var next: Node){
    // Tâche 6
 
    // Méthode findElement(s:String): Node qui retourne le premier nœud correspondant au String donné en argument
+   def findElement(s: String) : Node = {
+     var pivotNode = head
+     var findedNode : Node = null
+
+     while (pivotNode != null){ // Bu sekil tum elemnlari dolasiyorum
+       if(pivotNode.item == s)
+         findedNode = pivotNode
+       pivotNode = pivotNode.next
+     }
+     findedNode
+   }
+
+   // Méthode swapElements(e1:String, e2:String) qui échange le contenu (et uniquement le contenu, pas les
+   //nœuds) des deux nœuds correspondant aux String donnés en argument. Utilisez la méthode findElement()
+   //ci-dessus.
+   def swapElements(e1 : String, e2: String) : Unit = {
+     var node1 = findElement(e1)
+     var node2 = findElement(e2)
+
+     if(node1 != null && node2 != null) {
+       node1.item = e2
+       node2.item = e1
+     }
+   }
+
+    // Méthode removeLastElement() qui enlève le dernier élément de la liste.
+    def removeLastElement(): Unit = {
+      if (head == null || head.next == null) {
+        // Liste boşsa veya tek eleman varsa, head'i null yap.
+        head = null
+      } else {
+        // Listenin sonundan bir önceki düğümü bulana kadar ilerle.
+        var lastNode = head
+        while (lastNode.next.next != null) {
+          lastNode = lastNode.next
+        }
+        // Son düğümün bağlantısını kes.
+        lastNode.next = null
+      }
+    }
+
+   // Méthode removeElement(e:String) qui enlève le nœud correspondant au String donné en argument.
+   // Attention, cette méthode comporte plusieurs difficultés.
+  def removeElement(e : String) : Unit = {
+
+   if (head != null && head.item == e) { // silenecek item head ise onun icin
+     head = head.next
+   } else {
+
+     var prevNode = head  // Önceki düğümü ve mevcut düğümü tutacak değişkenler
+     var currentNode = head
+
+     while (currentNode != null && currentNode.item != e) { // Mevcut düğüm null değilse ve item e eşit değilse döngüyü sürdür
+       prevNode = currentNode // Önceki düğümü güncelle
+       currentNode = currentNode.next // Sonraki düğüme ilerle
+     }
+     // Eğer silinecek düğüm bulunduysa, bağlantıyı kes
+     if (currentNode != null) {
+       prevNode.next = currentNode.next
+     }
+   }
+  }
+
+   //Méthode insertAfter(before:String, after:String) qui crée un nouveau nœud et qui l’insère après le
+   //nœud correspondant au nœud before, si celui-ci existe
+   def insertAfter(before:String, after:String) : Unit =  {
+     val beforeNoed = findElement(before)
+     val newNode : Node = new Node(after,beforeNoed.next)
+     beforeNoed.next = newNode
+   }
 
 
-
-
-
-} // End of the LinkedList Class
+ } // End of the LinkedList Class
 
 object LinkedList extends App {
 
+  /* Node Class'ini create ettikten sonra test icin kullanilan kisim
   var n3: Node = new Node("Milan")
   var n2: Node = new Node("Paris", n3)
   var n1: Node = new Node("Tokyo", n2)
-  /*
+
   println(n3.next) // null
   println(n1.next) // Node@5474c6c -> n2 Node'u
   println(n1.next.item) // Paris
@@ -99,7 +168,7 @@ object LinkedList extends App {
   println(n1.next.next.next) // null -> n3 Node'un referans ettigi Node yani null
    */
 
-
+  /* Testi calistirmadan once metdolari test etmek icin kullandigim kodlar
   var flightList: LinkedList = new LinkedList()
   println(flightList)
   println(flightList.getLastElement()) // List is empty and null
@@ -132,6 +201,34 @@ object LinkedList extends App {
   println(flightList.isPresent("Giresun"))
   println(flightList.isPresent("Amsterdam"))
 
+  println(flightList.findElement("Rome")) // Rome
+  println(flightList.toString) // List content (5) : Ankara -> Sion -> Paris -> Rome -> Giresun -> null
+  println(flightList.findElement("Rome").next.item) // Giresun
+
+
+  println(flightList.swapElements("Ankara","Rome"))
+  println(flightList.toString) // List content (5) : Rome -> Sion -> Paris -> Ankara -> Giresun -> null
+
+  flightList.removeLastElement()
+  println(flightList.toString) // List content (4) : Rome -> Sion -> Paris -> Ankara -> null
+
+  // Testing instertAfter Method
+  flightList.insertAfter("Sion","New York")
+  println(s"Listenin yeni hali = ${flightList.toString}") // Listenin yeni hali = List content (5) : Rome -> Sion -> New York -> Paris -> Ankara -> null
+
+  flightList.removeElement("Sion")
+  println(flightList.toString) // List content (3) : Rome -> Paris -> Ankara -> null
+  flightList.removeElement("Paris")
+  println(flightList.toString) // List content (2) : Rome -> Ankara -> null
+  println(flightList.removeElement("Rome"))
+  println(flightList.toString) // List content (1) : Ankara -> null
+
+
+  println(flightList.getLastElement().item)
+  flightList.addToEnd("Izmir")
+  println(flightList.getLastElement().item)
+
+ */
 
   /* Kodlama asamasinda methodlarin calisip calismadigini test etmek maksatli yazdigim satirlar
   println(flightList.head)
