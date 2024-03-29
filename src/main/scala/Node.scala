@@ -173,7 +173,7 @@ class Node(var item: String, var next: Node){
 
 object LinkedList extends App {
 
-  //println("Tests were done, everything is ok")
+  println("Tests were done, everything is ok")
 
   /* TEST KODU RUN EDILIRKEN HATALI YERLERIN TESPITI ICIN TESTTEN ALINIP KULLANILAN KODLAR
   val n = new LinkedList()
