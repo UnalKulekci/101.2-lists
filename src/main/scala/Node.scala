@@ -43,7 +43,6 @@ class Node(var item: String, var next: Node){
 
      var size : Int = getSize() // Size kadar liste'deki next'lemek icin once bunu aliyorum
      var lastNode : Node = head
-
      if(size == 0) {
        return null
      } else {
@@ -56,9 +55,24 @@ class Node(var item: String, var next: Node){
 
    // Méthode addToEnd(element:String) permettant d’ajouter un élément à la fin de la liste. Utiliser pour cette
    //méthode la méthode getLastElement().
-   def addToEnd(element:String) : Unit = {
+   def addToEnd2(element:String) : Unit = {
      var lastNode : Node = getLastElement()
      lastNode.next = new Node(element)
+   }
+
+   // tum node larin referans ettigi node degismeli burada --- SILME NOT AL BUNU
+   //   YADA SADECE SON IKI NODE UN REFERANSI DEGISMELI
+   def addToEnd(element:String) : Unit = {
+
+     var newNode = new Node(element,null)
+
+     if(getLastElement() == null) {
+       head = newNode
+     } else{
+       var newNode = new Node(element,null)
+       getLastElement().next = newNode
+     }
+
    }
 
 
@@ -145,16 +159,69 @@ class Node(var item: String, var next: Node){
 
    //Méthode insertAfter(before:String, after:String) qui crée un nouveau nœud et qui l’insère après le
    //nœud correspondant au nœud before, si celui-ci existe
-   def insertAfter(before:String, after:String) : Unit =  {
-     val beforeNoed = findElement(before)
-     val newNode : Node = new Node(after,beforeNoed.next)
-     beforeNoed.next = newNode
+  def insertAfter(before: String, after: String): Unit = {
+   if (before != null && after != null) {
+     val beforeNode = findElement(before)
+     if (beforeNode != null) { // `before` düğümü bulunduysa işlem yap
+       val newNode = new Node(after, beforeNode.next)
+       beforeNode.next = newNode
+     }
    }
-
+ }
 
  } // End of the LinkedList Class
 
 object LinkedList extends App {
+
+  //println("Tests were done, everything is ok")
+
+  /* TEST KODU RUN EDILIRKEN HATALI YERLERIN TESPITI ICIN TESTTEN ALINIP KULLANILAN KODLAR
+  val n = new LinkedList()
+  n.addToEnd("Alice")
+  println(n.toString)
+  n.insertAfter("Alice", "Cathy")
+  println(s"${n.head.item} and ${n.findElement("Alice").item}")
+  println(s"${n.getLastElement().item}")
+  n.insertAfter("Alice","Bob")
+  println(n.toString)
+  println(s"${n.getLastElement().item}")
+
+  n.insertAfter("Cathy", "Dan")
+  println(n.toString) // List content (4) : Alice -> Bob -> Cathy -> Dan -> null
+
+  println(n.findElement("Erin"))
+
+  n.insertAfter("Frank",null) // Bunu yapmamali
+  println(n.toString)
+  println(n.getLastElement().item)
+
+ // n.insertAfter("Erin", "Frank")
+
+   */
+
+  /*
+  assertEquals("Cathy", n.getLastElement().item, "'Cathy' MUST be at the end")
+  n.insertAfter("Alice", "Bob")
+  assertEquals(3, n.getSize(), "size MUST be 3")
+  assertEquals("Cathy", n.getLastElement().item, "'Cathy' MUST be at the end")
+  n.insertAfter("Cathy", "Dan")
+  assertEquals(4, n.getSize(), "size MUST be 4")
+  assertEquals("Dan", n.getLastElement().item, "'Dan' MUST be at the end")
+  n.insertAfter("Erin", "Frank")
+  assertEquals(4, n.getSize(), "size MUST be 4")
+  assertEquals("Dan", n.getLastElement().item, "'Dan' MUST be at the end")
+  assertFalse(n.isPresent("Erin"), "'Erin' MUST not be in the list")
+  assertFalse(n.isPresent("Frank"), "'Frank' MUST not be in the list")
+  n.insertAfter("Frank", null)
+  assertEquals(4, n.getSize(), "size MUST be 4")
+  assertEquals("Dan", n.getLastElement().item, "'Dan' MUST be at the end")
+  assertFalse(n.isPresent("Frank"), "'Frank' MUST not be in the list")
+  n.insertAfter(null, "Frank")
+  assertEquals(4, n.getSize(), "size MUST be 4")
+  assertEquals("Dan", n.getLastElement().item, "'Dan' MUST be at the end")
+  assertFalse(n.isPresent("Frank"), "'Frank' MUST not be in the list")
+
+   */
 
   /* Node Class'ini create ettikten sonra test icin kullanilan kisim
   var n3: Node = new Node("Milan")
