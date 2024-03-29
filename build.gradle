@@ -20,5 +20,5 @@ test {
 }
 
 application {
-	mainClass = 'Part1'
+	mainClass = 'LinkedList'
 }
